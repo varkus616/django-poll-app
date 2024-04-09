@@ -1,0 +1,117 @@
+
+{% extends "polls/base_template.html" %}
+
+{% block title %}Polls for Votes{% endblock %}
+
+{% block links %}
+        <a href="{% url 'admin:index' %}" class="btn btn-lg btn-primary">Admin Site</a>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>About us</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quis lorem ut libero malesuada feugiat. Nulla porttitor accumsan tincidunt.</p>
+            </div>
+            <div class="col-md-6">
+                <h2>How it works?</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quis lorem ut libero malesuada feugiat. Nulla porttitor accumsan tincidunt.</p>
+            </div>
+        </div>
+    </div>
+
+
+<div class="container">
+        <div class="row">
+        <div class="col-md-6">
+        <div id="survey-form" class="container mt-5">
+            <h2>Create Poll</h2>
+            <form action="" method="post" class="needs-validation" >
+                {% csrf_token %}
+                {{ form }}
+
+                <div class="form-group">
+                    <label for="id_question_text">Question:</label>
+                    <input type="text" class="form-control" name="question_text" id="id_question_text" required>
+                    <div class="invalid-feedback">
+                        Please provide a question.
+                    </div>
+                </div>
+
+                <div class="choice-fields">
+                <div class="form-group">
+                    <label for="id_choice1_text">Choice 1:</label>
+                    <input type="text" class="form-control" name="choice1_text" id="id_choice1_text" required>
+                    <div class="invalid-feedback">
+                        Please provide a choice.
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_choice2_text">Choice 2:</label>
+                    <input type="text" class="form-control" name="choice2_text" id="id_choice2_text" required>
+                    <div class="invalid-feedback">
+                        Please provide a choice.
+                    </div>
+                </div>
+                </div>
+                <input type="hidden" id="Number-of-choices" name="Number-of-choices" value="2">
+                <button type="button" class="btn btn-primary" id="add-choice">Add Choice</button>
+                <button type="submit" class="btn btn-primary">Create Poll</button>
+            </form>
+
+            {% if form.errors %}
+                <p class="text-danger mt-3">Failed to submit the form. Please try again.</p>
+            {% endif %}
+        </div>
+
+        </div>
+        <div class="col-md-6">
+            {% if object_list %}
+            <h3>Most Recent Polls</h3>
+                <ul class="list-group">
+                    {% for question in object_list %}
+                        <li class="list-group-item"><a href="{% url 'polls:detail' question.id %}"><b>{{forloop.counter}}.{{ question.question_text }}</b></a></li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-muted">There are no polls to show! Add your own for it to be shown here.</p>
+            {% endif %}
+        </div>
+
+        </div>
+    </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const addChoiceButton = document.getElementById('add-choice');
+        const choiceFieldsContainer = document.querySelector('.choice-fields');
+
+        addChoiceButton.addEventListener('click', function() {
+            console.log("SIEMA");
+            const newChoiceField = document.createElement('div');
+            let numOfChoicesTag = document.getElementById('Number-of-choices');
+            console.log(numOfChoicesTag.value);
+            let numOfChoices = parseInt(numOfChoicesTag.value);
+            numOfChoices++;
+            numOfChoicesTag.setAttribute('value',numOfChoices);
+
+            newChoiceField.innerHTML = `
+                <div class="form-group">
+                    <label for="id_choice${numOfChoices}_text">Choice ${numOfChoices}:</label>
+                    <input type="text" class="form-control" name="choice${numOfChoices}_text" id="id_choice${numOfChoices}_text" required>
+                    <div class="invalid-feedback">
+                        Please provide a choice.
+                    </div>
+                </div>
+            `;
+            choiceFieldsContainer.appendChild(newChoiceField);
+
+        });
+
+    });
+</script>
+
+{% endblock %}

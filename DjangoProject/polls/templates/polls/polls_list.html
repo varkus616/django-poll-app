@@ -1,0 +1,24 @@
+{% extends "polls/base_template.html" %}
+
+{% block title %}Polls for Votes{% endblock %}
+
+{% block content %}
+
+<div class="col-md-6">
+    {% if object_list %}
+    <h3>Polls</h3>
+    <ul class="list-group">
+        {% for question in object_list %}
+        <li class="list-group-item d-line"><a href="{% url 'polls:detail' question.id %}"><b>{{forloop.counter}}.{{ question.question_text }}</b></a>
+        {% if question.was_published_recently %}
+            <p class="text-info ">Published recently!</p></li>
+        {% endif %}
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p class="text-muted">There are no polls to show! Add your own for it to be shown here.</p>
+    {% endif %}
+</div>
+
+
+{% endblock %}

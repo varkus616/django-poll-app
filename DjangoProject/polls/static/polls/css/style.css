@@ -1,0 +1,27 @@
+li a {
+    color: green;
+}
+body {
+    //background: white url("images/background.jpg") no-repeat;
+}
+body
+{
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa;
+}
+.jumbotron {
+  background-color: #007bff;
+  color: #fff;
+}
+.btn-primary {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+.list-group {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.text-muted {
+    margin-top: 20px;
+}
